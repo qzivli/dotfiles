@@ -3,6 +3,20 @@
 (tool-bar-mode 0)
 (setq ring-bell-function 'ignore)
 
+(when (version<= "26.0.50" emacs-version)
+  (global-display-line-numbers-mode))
+
+;;; Face
+
+(add-to-list 'default-frame-alist '(background-color . "#F2F2F2"))
+
+(set-face-foreground 'font-lock-comment-face "#6C737C")
+;; (set-face-foreground 'font-lock-string-face "#102F5F")
+;; (set-face-foreground 'font-lock-string-face "#72972C")
+(set-face-foreground 'font-lock-string-face "#467F36")
+(set-face-foreground 'font-lock-constant-face "#225DBE")
+(set-face-attribute 'font-lock-keyword-face nil :foreground "#C7474E")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "#225DBE")
 
 ;;; For 13" MacBook Pro
 (setq default-frame-alist
@@ -31,8 +45,19 @@
 (make-directory "~/.emacs.d/backups/" t)
 
 (custom-set-variables
- '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/" t)))
- '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/" t))))
+ '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
+ '(column-number-mode t)
+ '(global-display-line-numbers-mode t)
+ '(package-selected-packages
+   (quote
+    (go-mode haskell-mode racket-mode projectile paredit cider)))
+ '(show-paren-mode t)
+ '(tool-bar-mode nil))
 
 
 (setq default-directory (concat (getenv "HOME") "/Documents/GitHub"))
@@ -165,6 +190,14 @@
         ;; ftype
         make-ftype-pointer
 
+        ;; I/O
+        call-with-port
+        open-file-input-port
+        open-file-output-port
+
+        ;; Personal
+        argument-case
+
         call-with-input-file
         call-with-input-string))
 
@@ -182,30 +215,31 @@
     (put 'with-syntax 'scheme-indent-function 3)
     (put 'with-implicit 'scheme-indent-function 3)
     (put 'receive 'scheme-indent-function 3)
-    (put 'module 'scheme-indent-function 'scheme-module-indent)))
+    ;;(put 'module 'scheme-indent-function 'scheme-module-indent)
+    ))
 
 
 
 ;;; Geiser
 
-(load-file "~/local/geiser/elisp/geiser.el")
+;; (load-file "~/local/geiser/elisp/geiser.el")
 
-(setq geiser-implementations-alist
-      '(((regexp "\\.ss$") chez)
-        ((regexp "\\.sls$") chez)
-        ((regexp "\\.scm$") chicken)
-        ((regexp "\\.rkt$") racket)))
-
-
-(eval-after-load "geiser-impl"
-  '(add-to-list 'geiser-implementations-alist
-                '((dir "/usr/local/bin") chez)))
+;; (setq geiser-implementations-alist
+;;       '(((regexp "\\.ss$") chez)
+;;         ((regexp "\\.sls$") chez)
+;;         ;;((regexp "\\.scm$") chicken)
+;;         ((regexp "\\.rkt$") racket)))
 
 
-(setq geiser-chez-binary "/usr/local/bin/scheme")
-(setq geiser-guile-binary "/usr/local/bin/guile")
-(setq geiser-racket-binary "/Applications/Racket v7.0/bin/racket")
-(setq geiser-chicken-binary "/usr/local/bin/csi")
+;; (eval-after-load "geiser-impl"
+;;   '(add-to-list 'geiser-implementations-alist
+;;                 '((dir "/usr/local/bin") chez)))
+
+
+;; (setq geiser-chez-binary "/usr/local/bin/scheme")
+;; (setq geiser-guile-binary "/usr/local/bin/guile")
+;; (setq geiser-racket-binary "/Applications/Racket v7.0/bin/racket")
+;; (setq geiser-chicken-binary "/usr/local/bin/csi")
 
 
 
@@ -240,6 +274,13 @@
 
 
 
+;;; OCaml
+(load "/Users/ziv/.opam/default/share/emacs/site-lisp/tuareg-site-file")
+
+
+
+
+
 ;;; C
 
 (setq c-default-style "linux")
@@ -267,3 +308,9 @@
   (lambda ()
     (interactive)
     (delete-trailing-whitespace)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
